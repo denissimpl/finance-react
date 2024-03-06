@@ -1,0 +1,12 @@
+.links{
+    color: white;
+    margin: 10px;
+    font-size: 1em;
+    text-decoration: none;
+    font-family: "Roboto";
+    transition: opacity 0.3s ease;
+}
+
+.links:hover{
+    opacity: 0.7;
+}
