@@ -4,7 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import NavLinks from './Links/NavLinks';
 
-import Auth from './Auth/Auth';
+import AuthMenu from './Auth/AuthMenu';
 
 const Header = () => {
     
@@ -16,7 +16,7 @@ const Header = () => {
                         Finance
                     </Typography>
                     <NavLinks />
-                    <Auth />
+                    <AuthMenu />
                     
                 </Toolbar>
             </AppBar>

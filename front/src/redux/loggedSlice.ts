@@ -10,7 +10,7 @@ const logged = createSlice({
     exit(state) {
       state.value = false
     },
-  },
+  }
 })
 
 export const { login, exit } = logged.actions

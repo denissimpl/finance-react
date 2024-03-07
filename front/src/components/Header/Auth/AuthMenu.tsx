@@ -1,32 +1,34 @@
 import { useUserLoginMutation } from "../../../redux";
 import { useEffect } from 'react';
-import {loginResponse} from '../../../types/types'
+import {IAuthResponse} from '../../../types/types'
 import ButtonWrapper from "./Buttons/ButtonWrapper";
 import { NavLink } from "react-router-dom";
 import classes from "./Auth.module.scss"
+import { useSelector } from "react-redux";
+import type { RootState } from '../../../redux/store'
 
-const Auth = () => {
-    let userData:loginResponse;
-    let logged: boolean = false
-    let login: string, password: string;
 
+const AuthMenu = () => {
+    const logged = useSelector((state: RootState) => state.logged.value)
     const [getData] = useUserLoginMutation()
 
-    const handleData = async (login: string, password: string) : Promise<void> => {
+    const LoginRequest = async (login: string, password: string) : Promise<IAuthResponse | boolean> => {
+        
         try {
-            userData = await getData({login: login, password: password}).unwrap()
+            return await getData({login: login, password: password}).unwrap()
         }
         catch (e) {
+            return false
             console.log("Error with post request /login")
         }
     }
 
-
+    
     const checkSession = () => {
-        login = localStorage.getItem("userLogin") || ""
-        password = localStorage.getItem("userPassword") || ""
+        let login = localStorage.getItem("userLogin") || ""
+        let password = localStorage.getItem("userPassword") || ""
         if (login && password) {
-            handleData(login, password)
+            let userData = LoginRequest(login, password)
             localStorage.setItem("userLogin", userData.login)
             localStorage.setItem("userPassword", userData.password)
             if (userData.status) {
@@ -51,13 +53,13 @@ const Auth = () => {
     
     useEffect(() => {
         checkSession()
-    }, [])
+    }, [logged])
     
     return (
         <>
         {
             logged?
-            <ButtonWrapper text="Выйти" callback={() => {}}/>:
+            <ButtonWrapper text="Выйти" callback={endSession}/>:
             <>
             <NavLink to="login" className={classes.link}>
                 <ButtonWrapper text="Войти"/>
@@ -72,4 +74,4 @@ const Auth = () => {
     )
 }
 
-export default Auth
+export default AuthMenu

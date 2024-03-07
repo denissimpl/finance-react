@@ -1,11 +1,11 @@
 import Button from '@mui/material/Button';
-import {ButtonWrapperProps} from '../../../../types/types'
+import {IButtonWrapperProps} from '../../../../types/types'
 
 
-const ButtonWrapper = (props: ButtonWrapperProps) => {
-    if (props.callback) {
+const ButtonWrapper = (props: IButtonWrapperProps) => {
+    if (props.callback !== undefined) {
         return (
-            <Button onClick={() => props.callback()} color="inherit">{props.text}</Button>
+            <Button onClick={() => props.callback?.()} color="inherit">{props.text}</Button>
         )
     }
 

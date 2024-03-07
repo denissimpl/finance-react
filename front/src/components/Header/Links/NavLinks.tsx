@@ -2,9 +2,9 @@ import { NavLink } from "react-router-dom";
 import Box from '@mui/joy/Box';
 import List from '@mui/joy/List';
 import classes from "./NavLinks.module.scss"
+import { INavLink } from "../../../types/types";
 const NavLinks = () => {
-
-    const links = [{name: "Главная", to: "/main"}, 
+    const links:INavLink[] = [{name: "Главная", to: "/main"}, 
                     {name: "Доходы и расходы", to:"/actions"},
                     {name:"Анализ доходов и расходов", to:"/charts"}]
     return (
@@ -17,8 +17,6 @@ const NavLinks = () => {
             </NavLink>
             )
         }
-        
-        
       </List>
     </Box>
     )

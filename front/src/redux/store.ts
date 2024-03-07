@@ -1,14 +1,20 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { goodsApi } from "./userApi";
-import loggedReducer from "./loggedSlice"
+import { userApi } from "./userApi";
+import loggedSlice from "./loggedSlice"
+import userDataSlice from "./userDataSlice";
+import loadingSlice from "./loadingSlice";
+import notificationSlice from "./notificationSlice";
 
 
 export const store = configureStore({
     reducer: {
-        [goodsApi.reducerPath] : goodsApi.reducer,
-        logged: loggedReducer
+        [userApi.reducerPath] : userApi.reducer,
+        logged: loggedSlice,
+        userData: userDataSlice,
+        loading: loadingSlice,
+        notification: notificationSlice
     },
-    middleware: (getDefaultMiddleware) =>  getDefaultMiddleware().concat(goodsApi.middleware)
+    middleware: (getDefaultMiddleware) =>  getDefaultMiddleware().concat(userApi.middleware)
 })
 
 export type RootState = ReturnType<typeof store.getState>
