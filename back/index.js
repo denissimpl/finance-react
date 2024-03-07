@@ -34,7 +34,7 @@ app.post('/register', async function (req, res) {
       if (!free) {
         res.send(JSON.stringify({
           status: false,
-          reason: "Имя уже занято"
+          reason: "Имя уже занято. "
         }))
         return
       }
@@ -47,7 +47,7 @@ app.post('/register', async function (req, res) {
       if (!success) {
         res.send(JSON.stringify({
           status:success,
-          reason: "creation error"
+          reason: "creation error. "
         }))
         return
       }
@@ -61,7 +61,7 @@ app.post('/register', async function (req, res) {
       console.log(e);
       res.send(JSON.stringify({
         status: false,
-        reason: "uncatched error"
+        reason: "uncatched error. "
       }))
       return
     }
@@ -78,7 +78,7 @@ app.post('/login', async function (req, res) {
       if (!status) {
         res.send(JSON.stringify({
           status,
-          reason: "Неверное имя пользователя или пароль"
+          reason: "Неверное имя пользователя или пароль. "
         }))
         return
       }
@@ -91,7 +91,7 @@ app.post('/login', async function (req, res) {
       console.log(e);
       res.send(JSON.stringify({
         status: false,
-        reason: "uncatched error"
+        reason: "uncatched error. "
       }))
       return
     }
@@ -111,7 +111,7 @@ app.post('/charts', async function (req, res) {
       console.log(e);
       res.send(JSON.stringify({
         status: false,
-        reason: "uncatched error"
+        reason: "uncatched error. "
       }))
       return
     }

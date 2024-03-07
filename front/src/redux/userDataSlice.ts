@@ -8,6 +8,7 @@ const userDataSlice = createSlice({
   },
   reducers: {
     updateData: (state, action) => {
+      const payload:IAuthData = action.payload
       state.user = action.payload
     }
   }

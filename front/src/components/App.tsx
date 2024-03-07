@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Main from "./Main/Main";
 import Actions from "./Actions/Actions";
 import Charts from "./Charts/Charts";
-import AuthForm from "./Form/AuthForm";
+import AuthForm from "./AuthForm/AuthForm";
 import Loader from "./Loader/Loader";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux";
@@ -13,7 +13,7 @@ import AlertWrapper from "./Alert/AlertWrapper";
 
 const App = () => {
   const loading = useSelector((state: RootState) => state.loading.value)
-  const notification = useSelector((state: RootState) => state.notification.value)
+  const notification = useSelector((state: RootState) => state.notification)
   return (
     <BrowserRouter>
       <Header/>
@@ -31,8 +31,8 @@ const App = () => {
         null
       }
       {
-        notification?
-        <AlertWrapper value="success" text="Успешно" sx={{
+        notification.value?
+        <AlertWrapper type={notification.type} text={notification.text} sx={{
                 position: "fixed", 
                 width: "100%",
                 display: "flex",

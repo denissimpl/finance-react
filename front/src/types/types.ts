@@ -1,5 +1,4 @@
 
-
 export interface IUserAction{
     name: string,
     amount: string,
@@ -49,9 +48,16 @@ export interface IAuthResponse {
     data: IAuthData
 }
 
-export type FormInfo = {
-    value: "success" | "info" | "warning" | "error"
-    text: string
+export interface notificationPayload{
+    value: boolean,
+    text: string,
+    type: "success" | "info" | "warning" | "error"
+}
+
+    
+export interface notification{
+    text: string,
+    type: "success" | "info" | "warning" | "error",
     sx?: object
 }
     

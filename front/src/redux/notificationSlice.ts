@@ -1,13 +1,15 @@
+import { notificationPayload } from './../types/types';
 import { createSlice } from '@reduxjs/toolkit'
 
 const notification = createSlice({
   name: 'notification',
-  initialState: {value: false, text: "", type: ""},
+  initialState: {value: false, text: "", type: "success"},
   reducers: {
     showNotification(state, action) {
+      const payload:notificationPayload = action.payload  
       state.value = true
-      state.text = action.payload.text
-      state.type = action.payload.type
+      state.text = payload.text
+      state.type = payload.type
     },
     hideNotification(state) {
       state.value = false

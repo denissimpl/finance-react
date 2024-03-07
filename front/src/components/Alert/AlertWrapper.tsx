@@ -1,10 +1,10 @@
 import { Alert } from "@mui/material"
-import { FormInfo } from "../../types/types"
+import { notification } from "../../types/types"
 
 
-const AlertWrapper = (props: FormInfo) => {
+const AlertWrapper = (props: notification) => {
     return (
-        <Alert severity={props.value} sx={props.sx}>{props.text}</Alert>
+        <Alert severity={props.type} sx={props.sx}>{props.text}</Alert>
     )
 }
 

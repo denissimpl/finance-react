@@ -47,18 +47,43 @@ const AuthForm = (props: IFormProps) => {
     if (props.isLogin) {
       data = await AuthRequest(nameValue, passwordValue, login)
       if (data.status) {
-        dispatch(showNotification({}))
+        dispatch(showNotification({
+          value:true,
+          text:"Успешный вход",
+          type: "success"
+        }))
         dispatch(updateData(data))
         setNameValue("")
         setPasswordValue("")
-
+      } else {
+        dispatch(showNotification({
+          value:true,
+          text: data.reason,
+          type: "error"
+        }))
       }
-      
     } else {
       data = await AuthRequest(nameValue, passwordValue, register)
-      dispatch(updateData(data))
+      if (data.status) {
+        dispatch(showNotification({
+          value:true,
+          text:"Успешная регистрация! Авторизуйтесь!",
+          type: "success"
+        }))
+        setNameValue("")
+        setPasswordValue("")
+      } else {
+        dispatch(showNotification({
+          value:true,
+          text: data.reason,
+          type: "error"
+        }))
+      }
     }
     dispatch(stopLoading())
+    setTimeout(() => {
+      dispatch(hideNotification())
+    }, 2000);
   };
 
 
