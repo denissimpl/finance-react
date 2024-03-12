@@ -5,6 +5,11 @@ export interface IUserAction{
     date: string
 }
 
+export interface IUserActions {
+    income: IUserAction[],
+    expenses: IUserAction[]
+}
+
 export interface IButtonWrapperProps{
     text: string
     callback?: Function
@@ -15,7 +20,6 @@ export interface IFormProps{
         header: string,
         button: string
     },
-    callback: Function,
     isLogin: boolean
 }
 
@@ -24,7 +28,7 @@ export interface INavLink {
     to:string
 }
 
-export interface IUser {
+export interface ISocketData {
     _id: string,
     login: string,
     password: string,
@@ -61,4 +65,12 @@ export interface notification{
     sx?: object
 }
     
+export interface ITableProps{
+    socketDataCopy: ISocketData,
+    socket: WebSocket,
+    type: string
+}
 
+export interface IToolbarProps{
+    
+}

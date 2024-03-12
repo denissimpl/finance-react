@@ -4,6 +4,7 @@ import loggedSlice from "./loggedSlice"
 import userDataSlice from "./userDataSlice";
 import loadingSlice from "./loadingSlice";
 import notificationSlice from "./notificationSlice";
+import socketDataSlice from "./socketDataSlice";
 
 
 export const store = configureStore({
@@ -12,7 +13,8 @@ export const store = configureStore({
         logged: loggedSlice,
         userData: userDataSlice,
         loading: loadingSlice,
-        notification: notificationSlice
+        notification: notificationSlice,
+        socketData: socketDataSlice
     },
     middleware: (getDefaultMiddleware) =>  getDefaultMiddleware().concat(userApi.middleware)
 })

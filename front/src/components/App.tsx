@@ -1,35 +1,37 @@
 import Header from "./Header/Header"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Main from "./Main/Main";
-import Actions from "./Actions/Actions";
-import Charts from "./Charts/Charts";
-import AuthForm from "./AuthForm/AuthForm";
 import Loader from "./Loader/Loader";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux";
 import AlertWrapper from "./Alert/AlertWrapper";
+import { Routing } from "./Routing/Routing";
 
 
 
 const App = () => {
   const loading = useSelector((state: RootState) => state.loading.value)
+  const logged = useSelector((state:RootState) => state.logged.value)
   const notification = useSelector((state: RootState) => state.notification)
   return (
     <BrowserRouter>
       <Header/>
+
       <Routes>
-        <Route path="/main" element={<Main />} />
-        <Route path="/" element={<Main />} />
-        <Route path="/actions" element={<Actions />} />
-        <Route path="/charts" element={<Charts />} />
-        <Route path="/login" element={<AuthForm isLogin={true} callback={() => {}} text={{button: "Войти", header: "Авторизация"}} />} />
-        <Route path="/register" element={<AuthForm isLogin={false} callback={() => {}} text={{button: "Зарегистрироваться", header: "Регистрация"}} />} />
+        {logged?
+        Routing.auth.map((route, index) => {
+          return <Route key={index} path={route.path} element={route.element()} />
+        }):
+        Routing.guest.map((route, index) => {
+          return <Route key={index} path={route.path} element={route.element()} />
+        })}
       </Routes>
+
       {
         loading?
         <Loader></Loader>:
         null
       }
+
       {
         notification.value?
         <AlertWrapper type={notification.type} text={notification.text} sx={{
@@ -42,10 +44,7 @@ const App = () => {
         null
       }
       
-      
     </BrowserRouter>
-        
-    
   )
 }
 

@@ -62,6 +62,7 @@ class Api {
             const result = await this.client.db("users").collection("users").findOne({login})
             if (result) {
                 if (result.password === password){
+                    this.data = result
                     return result
                 }
                 return false

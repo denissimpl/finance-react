@@ -1,19 +1,22 @@
 import { useUserLoginMutation } from "../../../redux";
 import { useEffect } from 'react';
-import {IAuthResponse} from '../../../types/types'
+import {IAuthData, IAuthResponse} from '../../../types/types'
 import ButtonWrapper from "./Buttons/ButtonWrapper";
 import { NavLink } from "react-router-dom";
 import classes from "./Auth.module.scss"
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from '../../../redux/store'
-
+import {login, exit} from '../../../redux/loggedSlice'
+import { updateUserData } from "../../../redux/userDataSlice";
+import { startLoading, stopLoading } from "../../../redux/loadingSlice";
 
 const AuthMenu = () => {
     const logged = useSelector((state: RootState) => state.logged.value)
-    const [getData] = useUserLoginMutation()
+    const dispatch = useDispatch()
+    const [getData, {isError}] = useUserLoginMutation()
 
-    const LoginRequest = async (login: string, password: string) : Promise<IAuthResponse | boolean> => {
-        
+
+    const LoginRequest = async (login: string, password: string) : Promise<IAuthData | boolean> => {
         try {
             return await getData({login: login, password: password}).unwrap()
         }
@@ -24,32 +27,35 @@ const AuthMenu = () => {
     }
 
     
-    const checkSession = () => {
-        let login = localStorage.getItem("userLogin") || ""
-        let password = localStorage.getItem("userPassword") || ""
+    const checkSession = async () => {
+        dispatch(startLoading())
+        let login: string | null = localStorage.getItem("userLogin")
+        let password: string | null = localStorage.getItem("userPassword")
+
         if (login && password) {
-            let userData = LoginRequest(login, password)
-            localStorage.setItem("userLogin", userData.login)
-            localStorage.setItem("userPassword", userData.password)
-            if (userData.status) {
+            if (logged) {
                 createSession()
-                return true
+            } else {
+                const userData:IAuthData | boolean = await LoginRequest(login, password)
+                if (userData && userData.status) {
+                    dispatch(updateUserData(userData))
+                    createSession()
+                }   
             }
-            return false
         }
-        return false
+        dispatch(stopLoading())
     }
     
+
     const createSession = () => {
-        logged = true
+        dispatch(login())
     }
 
     const endSession = () => {
-        logged = false
+        dispatch(exit())
         localStorage.removeItem("userLogin")
         localStorage.removeItem("userPassword")
     }
-   
     
     useEffect(() => {
         checkSession()

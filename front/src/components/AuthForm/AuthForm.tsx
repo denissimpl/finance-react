@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,34 +9,39 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { IAuthData, IAuthResponse, IFormProps } from '../../types/types';
+import { IAuthData, IFormProps } from '../../types/types';
 import { NavLink } from 'react-router-dom';
 import { useUserLoginMutation, useUserRegisterMutation } from "../../redux/userApi"
-import { useDispatch, useSelector } from 'react-redux';
-import { updateData } from '../../redux/userDataSlice';
+import { useDispatch } from 'react-redux';
+import { updateUserData } from '../../redux/userDataSlice';
 import Copyright from './Copyright';
 import {startLoading, stopLoading} from '../../redux/loadingSlice'
-import { RootState } from '../../redux';
 import { showNotification, hideNotification } from '../../redux/notificationSlice';
+import { login } from '../../redux/loggedSlice'
 
 
 async function AuthRequest (nameValue: string, passwordValue: string, callback:Function) {
-  let data:IAuthResponse = await callback({
+  let data:IAuthData = await callback({
     login: nameValue,
     password: passwordValue
-  })
-  return data.data
+  }).unwrap()
+  return data
 }
 
 
 const defaultTheme = createTheme();
 
 const AuthForm = (props: IFormProps) => {
-  const [login, {isError :isLoginError}] = useUserLoginMutation()
-  const [register, {isError :isRegisterError}] = useUserRegisterMutation()
+  const [loginReq, {isError :isLoginError}] = useUserLoginMutation()
+  const [registerReq, {isError :isRegisterError}] = useUserRegisterMutation()
   const [nameValue, setNameValue] = useState("")
   const [passwordValue, setPasswordValue] = useState("")
   const dispatch = useDispatch()
+
+  const clearInputs = () => {
+    setNameValue("")
+    setPasswordValue("")
+  }
   
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -45,16 +50,18 @@ const AuthForm = (props: IFormProps) => {
     let data: IAuthData;
     
     if (props.isLogin) {
-      data = await AuthRequest(nameValue, passwordValue, login)
+      data = await AuthRequest(nameValue, passwordValue, loginReq)
       if (data.status) {
         dispatch(showNotification({
           value:true,
           text:"Успешный вход",
           type: "success"
         }))
-        dispatch(updateData(data))
-        setNameValue("")
-        setPasswordValue("")
+        dispatch(updateUserData(data))
+        dispatch(login())
+        clearInputs()
+        localStorage.setItem("userLogin", data.login!)
+        localStorage.setItem("userPassword", data.password!)
       } else {
         dispatch(showNotification({
           value:true,
@@ -63,15 +70,14 @@ const AuthForm = (props: IFormProps) => {
         }))
       }
     } else {
-      data = await AuthRequest(nameValue, passwordValue, register)
+      data = await AuthRequest(nameValue, passwordValue, registerReq)
       if (data.status) {
         dispatch(showNotification({
           value:true,
           text:"Успешная регистрация! Авторизуйтесь!",
           type: "success"
         }))
-        setNameValue("")
-        setPasswordValue("")
+        clearInputs()
       } else {
         dispatch(showNotification({
           value:true,
