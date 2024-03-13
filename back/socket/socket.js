@@ -10,11 +10,11 @@ const wsServer = new WebSocket.Server({port: 5555});
 wsServer.on('connection', onConnect);
 
 async function handleAction(message) {
-  switch (message.type){
+  switch (message.method){
     case "GET":
       return await api.getEntireData(message)
     case "PUT":
-      return await api.handleData(message)
+      return await api.updateData(message)
     case "DELETE":
       return await api.handleData(message)
   }
@@ -23,20 +23,22 @@ async function handleAction(message) {
 
 
 async function onConnect(wsClient) {
-  function updateData () {
-    setTimeout(() => {
-      wsClient.send(JSON.stringify(api.getData()))
-      updateData()
-    }, 1500);
-  }
+  // function updateData () {
+  //   setTimeout(() => {
+  //     wsClient.send(JSON.stringify(api.getData()))
+  //     updateData()
+  //   }, 1500);
+  // }
   wsClient.on('message', async function(message) {
-    console.log(JSON.parse(message));
     result = await handleAction(JSON.parse(message))
-    wsClient.send(JSON.stringify(result))
+    wsClient.broadcast(JSON.stringify(result))
   })
-  updateData()
+  // updateData()
 }
 
 process.on('exit',async function (){
   await api.closeMongo()  
 });
+
+
+

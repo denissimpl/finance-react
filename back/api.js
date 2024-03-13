@@ -58,11 +58,13 @@ class Api {
     }
 
     async getEntireData ({login, password}) {
+        console.log(login,password);
         try {
             const result = await this.client.db("users").collection("users").findOne({login})
             if (result) {
                 if (result.password === password){
                     this.data = result
+                    console.log(result);
                     return result
                 }
                 return false
@@ -75,7 +77,39 @@ class Api {
         }
     }
 
+    async updateData (data) {
+        try {
+            if (data.type === "income") {
+                const result = await this.client.db("users").collection("users").updateOne({ login: data.data.login }, {
+                $push: {
+                    income: {
+                      name: data.data.name,
+                      amount: data.data.amount,
+                      date: data.data.date
+                    }
+                  }
+                });
+              } else {
+                const result = await this.client.db("users").collection("users").updateOne({ login: data.data.login }, {
+                $push: {
+                    expenses: {
+                      name: data.data.name,
+                      amount: data.data.amount,
+                      date: data.data.date
+                    }
+                  }
+                });
+              }
+            return await this.getEntireData({login: data.data.login, 
+                password: data.data.password})
+        } catch (e) {
+            console.log(e);
+            return false
+        }
+    }
+
     async handleData (data) {
+
         try{
             const result = await this.client.db("users").collection("users").updateOne({login: data.login},{$set: {
                 income: data.data.income, 

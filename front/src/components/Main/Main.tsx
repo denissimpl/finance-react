@@ -5,13 +5,12 @@ import Typography from '@mui/material/Typography';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux';
 import timeGreet from './timeGreet'
+import { useGetMessageQuery, useSendMessageMutation } from '../../redux/socketApi';
 
 const Main = () => {
-
+    
     const login = useSelector((state: RootState) => state.userData.user.login)
     const greet = timeGreet()
-    
-
     return (
         <Card sx={{ maxWidth: 345 , margin: "100px auto"}}>
         <EmojiEmotionsIcon fontSize='large' sx={{margin:"auto", display: "block", mt: "20px"}}/>

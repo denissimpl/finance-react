@@ -1,8 +1,20 @@
 
+import { GridApiCommunity } from "@mui/x-data-grid/internals"
+import { MutableRefObject } from "react"
+
 export interface IUserAction{
     name: string,
     amount: string,
     date: string
+}
+
+export interface ITableAction extends IUserAction {
+    id: number
+}
+
+export interface ITableActions {
+    income: ITableAction[],
+    expenses: ITableAction[]
 }
 
 export interface IUserActions {
@@ -32,8 +44,8 @@ export interface ISocketData {
     _id: string,
     login: string,
     password: string,
-    income: IUserAction[],
-    expenses: IUserAction[],
+    income: ITableAction[],
+    expenses: ITableAction[],
 }
 
 export interface IAuthRequest {
@@ -67,10 +79,16 @@ export interface notification{
     
 export interface ITableProps{
     socketDataCopy: ISocketData,
-    socket: WebSocket,
     type: string
 }
 
 export interface IToolbarProps{
-    
+    type: string
+    onDeleteClick: () => void
+}
+
+export interface IModalProps {
+    open: boolean,
+    handleClose: () => void,
+    type: string
 }
