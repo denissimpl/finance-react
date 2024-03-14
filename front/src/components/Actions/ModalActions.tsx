@@ -24,32 +24,47 @@ const inputsStyle = {
 }
 
 const ModalActions = (props: IModalProps) => {
+    const [category, setCategory] = useState("")
+    const [amount, setAmount] = useState("")
+    const [date, setDate] = useState("")
+    const socketData = useSelector((state:RootState) => state.socketData.user)
+    const [sendSocket, {error}] = useSendMessageMutation()
 
     const twoWayBinding = (e:ChangeEvent<HTMLInputElement>, 
         callback:(e:ChangeEvent<HTMLInputElement>) => void) => {
         callback(e.target.value)
     }
 
-    const [category, setCategory] = useState("")
-    const [amount, setAmount] = useState("")
-    const [date, setDate] = useState("")
-    const socketData = useSelector((state:RootState) => state.socketData.user)
-    const [sendSocket, {error}] = useSendMessageMutation()
+    const clearInputs = () => {
+        setCategory("")
+        setAmount("")
+        setDate("")
+    }
+
+    
     const handleSubmit = async (e:Event) => {
         e.preventDefault()
         props.handleClose()
-        
-        await sendSocket({
+        let stringDate = date;
+        if (!date) {
+            
+            const dateNow = new Date()
+            stringDate = `${dateNow.getFullYear()}-${dateNow.getMonth()+1<10?"0"+(dateNow.getMonth()+1):dateNow.getMonth()+1}-${dateNow.getDate()<10?"0"+dateNow.getDate():dateNow.getDate()}`
+            setDate(stringDate)
+            
+        }
+        sendSocket({
             data:{
                 login: socketData.login,
                 password: socketData.password,
                 name: category,
                 amount,
-                date
+                date: stringDate
             },
             method: "PUT",
             type: props.type
         })
+        clearInputs()
 
     }
 
@@ -63,13 +78,16 @@ const ModalActions = (props: IModalProps) => {
                 Добавить {props.type == "income"? "доход": "расход"}
             </Typography>
             <TextField 
+                required
                 type="text"
                 value={category} 
                 onChange={(e) => twoWayBinding(e,setCategory)} 
                 sx={inputsStyle} id="outlined-basic" 
                 label="Категория" 
-                variant="outlined" />
+                variant="outlined"
+                />
             <TextField
+                required
                 type="number"
                 value={amount} 
                 onChange={(e) => twoWayBinding(e,setAmount)}
@@ -77,7 +95,7 @@ const ModalActions = (props: IModalProps) => {
                 id="outlined-basic" 
                 label="Цена" 
                 variant="outlined" />
-            <TextField 
+            <TextField
                 value={date}
                 onChange={(e) => twoWayBinding(e,setDate)}
                 type="date" 

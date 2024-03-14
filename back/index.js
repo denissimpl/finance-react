@@ -3,7 +3,8 @@ const express = require('express')
 const cors = require('cors')
 
 
-const uri = "mongodb+srv://dice:dicedicedice@finance.ynrwdor.mongodb.net/?retryWrites=true&w=majority&appName=Finance";
+require('dotenv').config();
+const uri = process.env.DB_CONN;
 
 
 const api = new Api(uri)
@@ -41,8 +42,8 @@ app.post('/register', async function (req, res) {
       const success = await api.createUser({
         login, 
         password, 
-        income: {},
-        expenses:  {},
+        income: [],
+        expenses:  [],
       })
       if (!success) {
         res.send(JSON.stringify({

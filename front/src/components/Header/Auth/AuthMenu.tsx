@@ -9,6 +9,7 @@ import type { RootState } from '../../../redux/store'
 import {login, exit} from '../../../redux/loggedSlice'
 import { updateUserData } from "../../../redux/userDataSlice";
 import { startLoading, stopLoading } from "../../../redux/loadingSlice";
+import { hideNotification, showNotification } from "../../../redux/notificationSlice";
 
 const AuthMenu = () => {
     const logged = useSelector((state: RootState) => state.logged.value)
@@ -48,7 +49,14 @@ const AuthMenu = () => {
     
 
     const createSession = () => {
+        dispatch(showNotification({
+            text: "Успешный вход",
+            type: "success"
+        }))
         dispatch(login())
+        setTimeout(() => {
+            dispatch(hideNotification())
+        }, 2000);
     }
 
     const endSession = () => {

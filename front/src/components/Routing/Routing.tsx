@@ -1,8 +1,9 @@
-import Actions from "../Actions/Actions";
-import AuthForm from "../AuthForm/AuthForm";
-import Charts from "../Charts/Charts";
-import Main from "../Main/Main";
-import Guest from '../Guest/Guest'
+import Actions from "../Pages/Actions";
+import Charts from "../Pages/Charts";
+import Main from "../Pages/Main";
+import Guest from "../Pages/Guest";
+import Login from "../Pages/Login";
+import Register from "../Pages/Register";
 
 
 
@@ -37,13 +38,13 @@ export const Routing = {
         {
         path: "/login",
         element: () => (
-            <AuthForm isLogin={true} text={{button: "Войти", header: "Авторизация"}} />
+            <Login/>
         )
     },
     {
         path: "/register",
         element: () => (
-            <AuthForm isLogin={false} text={{button: "Зарегистрироваться", header: "Регистрация"}} />
+            <Register/>
         )
     },
     {

@@ -1,10 +1,12 @@
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef, useGridApiRef } from "@mui/x-data-grid";
 import { ISocketData, ITableProps, IToolbarProps } from "../../types/types";
+import { useSendMessageMutation } from "../../redux/socketApi";
 
 import Toolbar from "./Toolbar";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux";
+import { useState } from "react";
 
 const columns: GridColDef[] = [
     {
@@ -13,31 +15,31 @@ const columns: GridColDef[] = [
     {
       field: 'name',
       headerName: 'Name',
-      width: 150,
-      editable: true,
+      width: 150
     },
     {
       field: 'amount',
       headerName: 'Amount',
-      width: 150,
-      editable: true,
+      width: 150
     },
     {
       field: 'date',
       headerName: 'Date',
-      width: 110,
-      editable: true,
+      width: 110
     },
   ];
 
 const Table = (props:ITableProps) => {
     const socketData:ISocketData = useSelector((state:RootState) => state.socketData.user)
     const apiRef = useGridApiRef()
+    const [sendSocket, {error}] = useSendMessageMutation()
+    const [selectionModel, setSelectionModel] = useState([])
+
     const onDeleteClick = () => {
       let newData:ISocketData = JSON.parse(JSON.stringify(socketData));
       if (props.type === "expenses") {
         newData.expenses = newData.expenses.filter((obj) => {
-          for (let id of apiRef.current.getSelectedRows().keys()){
+          for (let id of selectionModel){
             if (obj.id == id) {
               return false
             }
@@ -46,7 +48,7 @@ const Table = (props:ITableProps) => {
         })
       } else {
         newData.income = newData.income.filter((obj) => {
-          for (let id of apiRef.current.getSelectedRows().keys()){
+          for (let id of selectionModel){
             if (obj.id == id) {
               return false
             }
@@ -54,9 +56,11 @@ const Table = (props:ITableProps) => {
           return true
         })
       }
-      
-      
-      
+      setSelectionModel([])
+      sendSocket({
+        data: newData,
+        method: "DELETE"
+      })
       
     }
     return (
@@ -69,6 +73,10 @@ const Table = (props:ITableProps) => {
             apiRef={apiRef}
             rows={props.type == "income" ? props.socketDataCopy.income : props.socketDataCopy.expenses}
             columns={columns}
+            onRowSelectionModelChange={(newSelection) => {
+              setSelectionModel(newSelection);
+            }}
+            rowSelectionModel={selectionModel}
             initialState={{
             pagination: {
                 paginationModel: {

@@ -1,6 +1,7 @@
 const WebSocket = require('ws');
 const Api = require('./../api')
-const uri = "mongodb+srv://dice:dicedicedice@finance.ynrwdor.mongodb.net/?retryWrites=true&w=majority&appName=Finance";
+require('dotenv').config();
+const uri = process.env.DB_CONN;
 
 const api = new Api(uri)
 api.connectMongo()
@@ -22,23 +23,20 @@ async function handleAction(message) {
 
 
 
+
 async function onConnect(wsClient) {
-  // function updateData () {
-  //   setTimeout(() => {
-  //     wsClient.send(JSON.stringify(api.getData()))
-  //     updateData()
-  //   }, 1500);
-  // }
+  wsClient.broadcast = function(data) {
+    wsServer.clients.forEach(client => client.send(JSON.stringify(data)))
+  }
   wsClient.on('message', async function(message) {
+    console.log(JSON.parse(message));
     result = await handleAction(JSON.parse(message))
-    wsClient.broadcast(JSON.stringify(result))
+    wsClient.broadcast(result)
   })
-  // updateData()
+  
 }
 
 process.on('exit',async function (){
   await api.closeMongo()  
 });
-
-
 

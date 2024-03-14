@@ -111,7 +111,7 @@ class Api {
     async handleData (data) {
 
         try{
-            const result = await this.client.db("users").collection("users").updateOne({login: data.login},{$set: {
+            const result = await this.client.db("users").collection("users").updateOne({login: data.data.login},{$set: {
                 income: data.data.income, 
                 expenses: data.data.expenses
             }})

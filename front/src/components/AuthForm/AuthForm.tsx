@@ -90,6 +90,7 @@ const AuthForm = (props: IFormProps) => {
     setTimeout(() => {
       dispatch(hideNotification())
     }, 2000);
+    
   };
 
 
