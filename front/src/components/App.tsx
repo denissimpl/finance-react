@@ -34,13 +34,7 @@ const App = () => {
 
       {
         notification.value?
-        <AlertWrapper type={notification.type} text={notification.text} sx={{
-                position: "fixed", 
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                bottom: 0
-                }}/>:
+        <AlertWrapper type={notification.type} text={notification.text} />:
         null
       }
       

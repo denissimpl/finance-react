@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { IAuthData, ISocketData } from "../../types/types";
+import { IAuthData, IFullData } from "../../types/types";
 import { RootState } from "../../redux";
 import { useSendMessageMutation } from "../../redux/socketApi";
 import { useEffect } from "react";
@@ -7,11 +7,11 @@ import { Box } from "@mui/material";
 import Table from "../Actions/Table";
 
 
-let socketDataCopy:ISocketData;
+let socketDataCopy:IFullData;
 
 const Actions = () => {
     const userData:IAuthData = useSelector((state:RootState) => state.userData.user)
-    const socketData:ISocketData = useSelector((state:RootState) => state.socketData.user)
+    const socketData:IFullData = useSelector((state:RootState) => state.socketData.user)
     socketDataCopy = socketData
     const [sendSocket, {error}] = useSendMessageMutation()
     useEffect(() => {

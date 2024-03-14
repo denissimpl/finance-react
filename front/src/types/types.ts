@@ -1,6 +1,7 @@
 
 import { GridApiCommunity } from "@mui/x-data-grid/internals"
-import { MutableRefObject } from "react"
+import { EChartsOption, SetOptionOpts } from "echarts"
+import { CSSProperties, MutableRefObject } from "react"
 
 export interface IUserAction{
     name: string,
@@ -10,11 +11,6 @@ export interface IUserAction{
 
 export interface ITableAction extends IUserAction {
     id: number
-}
-
-export interface ITableActions {
-    income: ITableAction[],
-    expenses: ITableAction[]
 }
 
 export interface IUserActions {
@@ -40,13 +36,18 @@ export interface INavLink {
     to:string
 }
 
-export interface ISocketData {
+export interface IFullData {
     _id: string,
     login: string,
     password: string,
     income: ITableAction[],
     expenses: ITableAction[],
 }
+
+export interface IFullDataResponse {
+    data: IFullData
+}
+
 
 export interface IAuthRequest {
     login: string,
@@ -92,3 +93,15 @@ export interface IModalProps {
     handleClose: () => void,
     type: string
 }
+
+export interface ReactEChartsProps {
+    option: EChartsOption;
+    style?: CSSProperties;
+    settings?: SetOptionOpts;
+    loading?: boolean;
+  }
+
+export interface IIncomeOptionsMonthsValue {
+    date:number,
+    amount:number
+} 

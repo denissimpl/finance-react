@@ -1,6 +1,6 @@
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef, useGridApiRef } from "@mui/x-data-grid";
-import { ISocketData, ITableProps, IToolbarProps } from "../../types/types";
+import { IFullData, ITableProps, IToolbarProps } from "../../types/types";
 import { useSendMessageMutation } from "../../redux/socketApi";
 
 import Toolbar from "./Toolbar";
@@ -30,13 +30,13 @@ const columns: GridColDef[] = [
   ];
 
 const Table = (props:ITableProps) => {
-    const socketData:ISocketData = useSelector((state:RootState) => state.socketData.user)
+    const socketData:IFullData = useSelector((state:RootState) => state.socketData.user)
     const apiRef = useGridApiRef()
     const [sendSocket, {error}] = useSendMessageMutation()
     const [selectionModel, setSelectionModel] = useState([])
 
     const onDeleteClick = () => {
-      let newData:ISocketData = JSON.parse(JSON.stringify(socketData));
+      let newData:IFullData = JSON.parse(JSON.stringify(socketData));
       if (props.type === "expenses") {
         newData.expenses = newData.expenses.filter((obj) => {
           for (let id of selectionModel){

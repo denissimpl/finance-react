@@ -4,7 +4,13 @@ import { notification } from "../../types/types"
 
 const AlertWrapper = (props: notification) => {
     return (
-        <Alert severity={props.type} sx={props.sx}>{props.text}</Alert>
+        <Alert severity={props.type} sx={{
+            position: "fixed", 
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            bottom: 0
+            }}>{props.text}</Alert>
     )
 }
 

@@ -20,7 +20,14 @@ export const userApi = createApi({
             body: JSON.stringify(body),
           }),
         }),
+        getCharts: build.mutation({
+          query: (body: IAuthRequest) => ({
+            url: '/charts',
+            method: 'POST',
+            body: JSON.stringify(body),
+          }),
+        }),
     })
 })
 
-export const {useUserLoginMutation, useUserRegisterMutation} = userApi
+export const {useUserLoginMutation, useUserRegisterMutation, useGetChartsMutation} = userApi
