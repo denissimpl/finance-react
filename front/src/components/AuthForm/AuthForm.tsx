@@ -19,7 +19,6 @@ import {startLoading, stopLoading} from '../../redux/loadingSlice'
 import { showNotification, hideNotification } from '../../redux/notificationSlice';
 import { login } from '../../redux/loggedSlice'
 import { Dispatch, UnknownAction } from '@reduxjs/toolkit';
-import notifyAuth from './notifyAuth';
 
 
 async function AuthRequest (nameValue: string, passwordValue: string, callback:Function) {

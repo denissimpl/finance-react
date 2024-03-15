@@ -1,7 +1,7 @@
 import { Slice, createSlice } from '@reduxjs/toolkit'
 import { IFullData } from '../types/types'
 
-const socketDataSlice:Slice = createSlice({
+const socketDataSlice = createSlice({
   name: 'socketData',
   initialState:{
     user: {
