@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { Slice, createSlice } from '@reduxjs/toolkit'
 
-const loading = createSlice({
+const loading:Slice = createSlice({
   name: 'loading',
   initialState: {value: false},
   reducers: {

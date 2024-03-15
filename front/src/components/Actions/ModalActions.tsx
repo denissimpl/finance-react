@@ -1,5 +1,5 @@
 import {Modal, Box, TextField, Typography, Button } from "@mui/material"
-import {IModalProps} from '../../types/types'
+import {IFullData, IModalProps} from '../../types/types'
 import { ChangeEvent, useState } from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from '../../redux'
@@ -27,23 +27,46 @@ const ModalActions = (props: IModalProps) => {
     const [category, setCategory] = useState("")
     const [amount, setAmount] = useState("")
     const [date, setDate] = useState("")
-    const socketData = useSelector((state:RootState) => state.socketData.user)
+    const socketData:IFullData = useSelector((state:RootState) => state.socketData.user)
     const [sendSocket, {error}] = useSendMessageMutation()
+    const [errorText, setErrorText] = useState("")
+
 
     const twoWayBinding = (e:ChangeEvent<HTMLInputElement>, 
-        callback:(e:ChangeEvent<HTMLInputElement>) => void) => {
+        callback: React.Dispatch<React.SetStateAction<string>>) => {
         callback(e.target.value)
     }
 
-    const clearInputs = () => {
+    const clearInputs: () => void = () => {
         setCategory("")
         setAmount("")
         setDate("")
+        setErrorText("")
     }
 
+    const validate: (a:string, b:string) => string[] = (category:string, amount:string) => {
+        const errorArr:string[] = []
+        const categoryIncludesNumbers:Boolean = /[0-9]/.test(category);
+        const stringInAmount:Boolean = isNaN(amount)
+        if (categoryIncludesNumbers) {
+            errorArr.push("Нельзя использовать цифры в категории")
+        }
+        if (stringInAmount) {
+            errorArr.push("В цене можно использовать только цифры")
+        }
+        if (category.length < 3) {
+            errorArr.push("Категория должна быть не меньше 3 символов")
+        }
+        return errorArr
+    }
     
-    const handleSubmit = async (e:Event) => {
+    const handleSubmit:(e:Event) => void = async (e:Event) => {
         e.preventDefault()
+        const errors:string[] = validate(category, amount)
+        if (errors.length) {
+            setErrorText(errors.join(". "))            
+            return
+        }
         props.handleClose()
         let stringDate = date;
         if (!date) {
@@ -102,6 +125,9 @@ const ModalActions = (props: IModalProps) => {
                 sx={inputsStyle} 
                 id="outlined-basic" 
                 variant="outlined" />
+            <Typography component="h4" sx={{m:1, color: "red"}}>
+                {errorText}
+            </Typography>
             <Button sx={inputsStyle} type="submit" variant="contained">Добавить</Button>
             </Box>
         </Modal>  

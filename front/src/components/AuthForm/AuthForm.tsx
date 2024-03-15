@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -18,6 +18,8 @@ import Copyright from './Copyright';
 import {startLoading, stopLoading} from '../../redux/loadingSlice'
 import { showNotification, hideNotification } from '../../redux/notificationSlice';
 import { login } from '../../redux/loggedSlice'
+import { Dispatch, UnknownAction } from '@reduxjs/toolkit';
+import notifyAuth from './notifyAuth';
 
 
 async function AuthRequest (nameValue: string, passwordValue: string, callback:Function) {
@@ -36,7 +38,7 @@ const AuthForm = (props: IFormProps) => {
   const [registerReq, {isError :isRegisterError}] = useUserRegisterMutation()
   const [nameValue, setNameValue] = useState("")
   const [passwordValue, setPasswordValue] = useState("")
-  const dispatch = useDispatch()
+  const dispatch:Dispatch<UnknownAction> = useDispatch()
 
   const clearInputs = () => {
     setNameValue("")

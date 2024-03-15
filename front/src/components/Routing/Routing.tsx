@@ -4,10 +4,11 @@ import Main from "../Pages/Main";
 import Guest from "../Pages/Guest";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
+import { IRoutes } from "../../types/types";
 
 
 
-export const Routing = {
+export const Routing: IRoutes = {
     auth: [{
         path: "/main",
         element: () => (

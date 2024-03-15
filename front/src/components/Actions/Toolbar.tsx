@@ -7,8 +7,8 @@ import ModalActions from "./ModalActions";
 
 const Toolbar = (props: IToolbarProps) => {
     const [open, setOpen] = useState(false)
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleOpen: () => void = () => setOpen(true);
+    const handleClose: () => void = () => setOpen(false);
     return (
         <Box sx={{border:"1px solid rgba(224, 224, 224, 1)", borderRadius: "4px"}}>
             <ModalActions type={props.type} open={open} handleClose={handleClose} />

@@ -79,8 +79,21 @@ export interface notification{
 }
     
 export interface ITableProps{
-    socketDataCopy: ISocketData,
+    socketDataCopy: IFullData,
     type: string
+}
+
+
+
+
+export interface IRoute{
+    path: string,
+    element: () => JSX.Element
+}
+
+export interface IRoutes {
+    auth: IRoute[],
+    guest: IRoute[]
 }
 
 export interface IToolbarProps{

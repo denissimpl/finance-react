@@ -1,7 +1,7 @@
 import { Slice, createSlice } from '@reduxjs/toolkit'
-import { IAuthData, ISocketData } from '../types/types'
+import { IFullData } from '../types/types'
 
-const socketDataSlice = createSlice({
+const socketDataSlice:Slice = createSlice({
   name: 'socketData',
   initialState:{
     user: {
@@ -15,7 +15,7 @@ const socketDataSlice = createSlice({
   },
   reducers: {
     updateSocketData: (state, action) => {
-      const payload:ISocketData = action.payload
+      const payload:IFullData = action.payload
       state.user = action.payload
     }
   }

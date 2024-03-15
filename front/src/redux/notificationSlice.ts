@@ -1,7 +1,7 @@
 import { notificationPayload } from './../types/types';
-import { createSlice } from '@reduxjs/toolkit'
+import { Slice, createSlice } from '@reduxjs/toolkit'
 
-const notification = createSlice({
+const notification:Slice = createSlice({
   name: 'notification',
   initialState: {value: false, text: "", type: "success"},
   reducers: {

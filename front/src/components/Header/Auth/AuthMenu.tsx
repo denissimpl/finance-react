@@ -10,10 +10,11 @@ import {login, exit} from '../../../redux/loggedSlice'
 import { updateUserData } from "../../../redux/userDataSlice";
 import { startLoading, stopLoading } from "../../../redux/loadingSlice";
 import { hideNotification, showNotification } from "../../../redux/notificationSlice";
+import { Dispatch, UnknownAction } from "@reduxjs/toolkit";
 
 const AuthMenu = () => {
     const logged = useSelector((state: RootState) => state.logged.value)
-    const dispatch = useDispatch()
+    const dispatch:Dispatch<UnknownAction> = useDispatch()
     const [getData, {isError}] = useUserLoginMutation()
 
 
