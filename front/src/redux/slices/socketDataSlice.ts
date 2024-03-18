@@ -1,5 +1,5 @@
 import { Slice, createSlice } from '@reduxjs/toolkit'
-import { IFullData } from '../types/types'
+import { IFullData } from '../../types/types'
 
 const socketDataSlice = createSlice({
   name: 'socketData',

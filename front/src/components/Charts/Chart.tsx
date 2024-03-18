@@ -1,8 +1,13 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, CSSProperties } from "react";
 import { init, getInstanceByDom } from "echarts";
-import type { ECharts } from "echarts";
-import { ReactEChartsProps } from "../../types/types";
+import type { ECharts, EChartsOption, SetOptionOpts } from "echarts";
 
+export interface ReactEChartsProps {
+  option: EChartsOption;
+  style?: CSSProperties;
+  settings?: SetOptionOpts;
+  loading?: boolean;
+}
 
 
 const Chart = ({option,style,settings,loading}: ReactEChartsProps): JSX.Element => {

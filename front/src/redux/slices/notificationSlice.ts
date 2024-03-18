@@ -1,4 +1,4 @@
-import { notificationPayload } from './../types/types';
+import { notificationPayload } from '../../types/types';
 import { Slice, createSlice } from '@reduxjs/toolkit'
 
 const notification = createSlice({

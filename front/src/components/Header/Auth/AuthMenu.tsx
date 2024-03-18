@@ -1,70 +1,13 @@
-import { useUserLoginMutation } from "../../../redux";
 import { useEffect } from 'react';
-import {IAuthData, IAuthResponse} from '../../../types/types'
 import ButtonWrapper from "./Buttons/ButtonWrapper";
 import { NavLink } from "react-router-dom";
 import classes from "./Auth.module.scss"
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import type { RootState } from '../../../redux/store'
-import {login, exit} from '../../../redux/loggedSlice'
-import { updateUserData } from "../../../redux/userDataSlice";
-import { startLoading, stopLoading } from "../../../redux/loadingSlice";
-import { hideNotification, showNotification } from "../../../redux/notificationSlice";
-import { Dispatch, UnknownAction } from "@reduxjs/toolkit";
+import { endSession, checkSession } from "./Session/Session";
 
 const AuthMenu = () => {
     const logged = useSelector((state: RootState) => state.logged.value)
-    const dispatch:Dispatch<UnknownAction> = useDispatch()
-    const [getData, {isError}] = useUserLoginMutation()
-
-
-    const LoginRequest = async (login: string, password: string) : Promise<IAuthData | boolean> => {
-        try {
-            return await getData({login: login, password: password}).unwrap()
-        }
-        catch (e) {
-            return false
-            console.log("Error with post request /login")
-        }
-    }
-
-    
-    const checkSession = async () => {
-        dispatch(startLoading())
-        let login: string | null = localStorage.getItem("userLogin")
-        let password: string | null = localStorage.getItem("userPassword")
-
-        if (login && password) {
-            if (logged) {
-                createSession()
-            } else {
-                const userData:IAuthData | boolean = await LoginRequest(login, password)
-                if (userData && userData.status) {
-                    dispatch(updateUserData(userData))
-                    createSession()
-                }   
-            }
-        }
-        dispatch(stopLoading())
-    }
-    
-
-    const createSession = () => {
-        dispatch(showNotification({
-            text: "Успешный вход",
-            type: "success"
-        }))
-        dispatch(login())
-        setTimeout(() => {
-            dispatch(hideNotification())
-        }, 2000);
-    }
-
-    const endSession = () => {
-        dispatch(exit())
-        localStorage.removeItem("userLogin")
-        localStorage.removeItem("userPassword")
-    }
     
     useEffect(() => {
         checkSession()

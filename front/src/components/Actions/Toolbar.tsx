@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { IToolbarProps } from "../../types/types";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import ModalActions from "./ModalActions";
 
 
+export interface IToolbarProps{
+    type: string
+    onDeleteClick: () => void
+}
 
 const Toolbar = (props: IToolbarProps) => {
     const [open, setOpen] = useState(false)

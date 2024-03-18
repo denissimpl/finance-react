@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import type { IAuthRequest } from "../types/types"
+import type { IAuthRequest } from "../../types/types"
 
 
 export const userApi = createApi({

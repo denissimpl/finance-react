@@ -1,10 +1,11 @@
-import Header from "./Header/Header"
+import Header from "./components/Header/Header"
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Loader from "./Loader/Loader";
+import Loader from "./components/Loader/Loader";
 import { useSelector } from "react-redux";
-import { RootState } from "../redux";
-import AlertWrapper from "./Alert/AlertWrapper";
+import { RootState } from "./redux";
+import AlertWrapper from "./components/Alert/AlertWrapper";
 import { Routing } from "./Routing/Routing";
+import { IRoute } from "./types/types";
 
 
 
@@ -18,10 +19,10 @@ const App = () => {
 
       <Routes>
         {logged?
-        Routing.auth.map((route, index) => {
+        Routing.auth.map((route: IRoute, index:number) => {
           return <Route key={index} path={route.path} element={route.element()} />
         }):
-        Routing.guest.map((route, index) => {
+        Routing.guest.map((route:IRoute, index:number) => {
           return <Route key={index} path={route.path} element={route.element()} />
         })}
       </Routes>

@@ -1,5 +1,5 @@
 import { Slice, createSlice } from '@reduxjs/toolkit'
-import { IAuthData } from '../types/types'
+import { IAuthData } from '../../types/types'
 
 const userDataSlice = createSlice({
   name: 'userData',

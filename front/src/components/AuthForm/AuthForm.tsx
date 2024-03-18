@@ -9,32 +9,29 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { IAuthData, IFormProps } from '../../types/types';
+import { IAuthData } from '../../types/types';
 import { NavLink } from 'react-router-dom';
-import { useUserLoginMutation, useUserRegisterMutation } from "../../redux/userApi"
 import { useDispatch } from 'react-redux';
-import { updateUserData } from '../../redux/userDataSlice';
+import { updateUserData } from '../../redux/slices/userDataSlice';
 import Copyright from './Copyright';
-import {startLoading, stopLoading} from '../../redux/loadingSlice'
-import { showNotification, hideNotification } from '../../redux/notificationSlice';
-import { login } from '../../redux/loggedSlice'
+import {startLoading, stopLoading} from '../../redux/slices/loadingSlice'
+import { showNotification, hideNotification } from '../../redux/slices/notificationSlice';
+import { login } from '../../redux/slices/loggedSlice'
 import { Dispatch, UnknownAction } from '@reduxjs/toolkit';
+import { LoginRequest, RegisterRequest } from '../../services/sendRest';
 
-
-async function AuthRequest (nameValue: string, passwordValue: string, callback:Function) {
-  let data:IAuthData = await callback({
-    login: nameValue,
-    password: passwordValue
-  }).unwrap()
-  return data
+export interface IFormProps{
+  text: {
+      header: string,
+      button: string
+  },
+  isLogin: boolean
 }
 
 
 const defaultTheme = createTheme();
 
 const AuthForm = (props: IFormProps) => {
-  const [loginReq, {isError :isLoginError}] = useUserLoginMutation()
-  const [registerReq, {isError :isRegisterError}] = useUserRegisterMutation()
   const [nameValue, setNameValue] = useState("")
   const [passwordValue, setPasswordValue] = useState("")
   const dispatch:Dispatch<UnknownAction> = useDispatch()
@@ -51,7 +48,11 @@ const AuthForm = (props: IFormProps) => {
     let data: IAuthData;
     
     if (props.isLogin) {
-      data = await AuthRequest(nameValue, passwordValue, loginReq)
+      
+      data = await LoginRequest({
+        login: nameValue,
+        password: passwordValue
+      })
       if (data.status) {
         dispatch(showNotification({
           value:true,
@@ -71,7 +72,10 @@ const AuthForm = (props: IFormProps) => {
         }))
       }
     } else {
-      data = await AuthRequest(nameValue, passwordValue, registerReq)
+      data = await RegisterRequest({
+        login: nameValue,
+        password: passwordValue
+      })
       if (data.status) {
         dispatch(showNotification({
           value:true,

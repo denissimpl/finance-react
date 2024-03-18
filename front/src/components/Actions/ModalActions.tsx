@@ -1,34 +1,25 @@
 import {Modal, Box, TextField, Typography, Button } from "@mui/material"
-import {IFullData, IModalProps} from '../../types/types'
+import {IFullData} from '../../types/types'
 import { ChangeEvent, useState } from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from '../../redux'
-import { useSendMessageMutation } from "../../redux/socketApi";
+import sendSocket from "../../services/sendSocket";
+import { boxStyle, inputsStyle } from "./Modal/ModalStyles";
+import { makeDate, validate } from "./Modal/ModalFunctions";
 
-
-const boxStyle = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
-
-const inputsStyle = {
-    width: "100%", 
-    m:1
+export interface IModalProps {
+    open: boolean,
+    handleClose: () => void,
+    type: string
 }
+
+
 
 const ModalActions = (props: IModalProps) => {
     const [category, setCategory] = useState("")
     const [amount, setAmount] = useState("")
     const [date, setDate] = useState("")
     const socketData:IFullData = useSelector((state:RootState) => state.socketData.user)
-    const [sendSocket, {error}] = useSendMessageMutation()
     const [errorText, setErrorText] = useState("")
 
 
@@ -44,21 +35,7 @@ const ModalActions = (props: IModalProps) => {
         setErrorText("")
     }
 
-    const validate: (a:string, b:string) => string[] = (category:string, amount:string) => {
-        const errorArr:string[] = []
-        const categoryIncludesNumbers:Boolean = /[0-9]/.test(category);
-        const stringInAmount:Boolean = isNaN(amount)
-        if (categoryIncludesNumbers) {
-            errorArr.push("Нельзя использовать цифры в категории")
-        }
-        if (stringInAmount) {
-            errorArr.push("В цене можно использовать только цифры")
-        }
-        if (category.length < 3) {
-            errorArr.push("Категория должна быть не меньше 3 символов")
-        }
-        return errorArr
-    }
+    
     
     const handleSubmit:(e:Event) => void = async (e:Event) => {
         e.preventDefault()
@@ -70,9 +47,7 @@ const ModalActions = (props: IModalProps) => {
         props.handleClose()
         let stringDate = date;
         if (!date) {
-            
-            const dateNow = new Date()
-            stringDate = `${dateNow.getFullYear()}-${dateNow.getMonth()+1<10?"0"+(dateNow.getMonth()+1):dateNow.getMonth()+1}-${dateNow.getDate()<10?"0"+dateNow.getDate():dateNow.getDate()}`
+            stringDate = makeDate()
             setDate(stringDate)
             
         }

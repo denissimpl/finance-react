@@ -1,5 +1,15 @@
 import { store, userApi } from "../../redux"
-import { IFullData, IFullDataResponse, IIncomeOptionsMonthsValue, IUserAction, IUserActions } from "../../types/types";
+import { IFullData, IFullDataResponse, IUserAction } from "../../types/types";
+
+export interface IIncomeOptionsMonthsValue {
+  date:number,
+  amount:number
+} 
+
+export interface IChartOption {
+    [key: string] : number
+}
+
 
 function getMonthName(monthNumber: number) {
     const date = new Date();
@@ -7,9 +17,7 @@ function getMonthName(monthNumber: number) {
     return date.toLocaleString('ru-Ru', { month: 'long' });
 }
 
-export interface IChartOption {
-    [key: string] : number
-}
+
 
 let expMonObj:IChartOption = {}
 let incMonObj:IChartOption = {}
@@ -38,18 +46,22 @@ const handleChartData = async () => {
     const income:IUserAction[] = Array.from(data.income)
     for (let obj of income) {
         let year_month_day = obj.date.split("-")
+        
         if (incMonObj[String(new Date(year_month_day[0]+"-"+year_month_day[1]+"-01"))] ) {
-            incMonObj[String(new Date(year_month_day[0]+"-"+year_month_day[1]+"-01"))] += Number(obj.amount)
+            incMonObj[String(new Date(year_month_day[0]+"-"+year_month_day[1]+"-01"))] +=
+            Number(obj.amount)
+        } else {
+          incMonObj[String(new Date(year_month_day[0]+"-"+year_month_day[1]+"-01"))] = Number(obj.amount)
         }
-        incMonObj[String(new Date(year_month_day[0]+"-"+year_month_day[1]+"-01"))] = Number(obj.amount)
     }
     for (let obj of expenses) {
         let buyDate:number = new Date(Date.parse(obj.date)).getMonth()
         if (buyDate == currentMon){
             if (expMonObj[obj.name.toLowerCase()]) {
                 expMonObj[obj.name.toLowerCase()] += Number(obj.amount)
+            } else {
+              expMonObj[obj.name.toLowerCase()] = Number(obj.amount)
             }
-            expMonObj[obj.name.toLowerCase()] = Number(obj.amount)
         }
     }
 
@@ -60,6 +72,7 @@ const handleChartData = async () => {
             + prop.slice(1)
         })
     }
+    
 }
 
 const getExpensesOptions = () => {
@@ -144,7 +157,6 @@ const getIncomeOptions = () => {
 
 const getChartOptions = async () => {
     await handleChartData()
-    
     return {
         income:getIncomeOptions(),
         expenses:getExpensesOptions()

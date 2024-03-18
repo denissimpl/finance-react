@@ -1,7 +1,5 @@
-
-import { GridApiCommunity } from "@mui/x-data-grid/internals"
 import { EChartsOption, SetOptionOpts } from "echarts"
-import { CSSProperties, MutableRefObject } from "react"
+import { CSSProperties } from "react"
 
 export interface IUserAction{
     name: string,
@@ -18,18 +16,9 @@ export interface IUserActions {
     expenses: IUserAction[]
 }
 
-export interface IButtonWrapperProps{
-    text: string
-    callback?: Function
-}
 
-export interface IFormProps{
-    text: {
-        header: string,
-        button: string
-    },
-    isLogin: boolean
-}
+
+
 
 export interface INavLink {
     name:string,
@@ -72,16 +61,9 @@ export interface notificationPayload{
 }
 
     
-export interface notification{
-    text: string,
-    type: "success" | "info" | "warning" | "error",
-    sx?: object
-}
+
     
-export interface ITableProps{
-    socketDataCopy: IFullData,
-    type: string
-}
+
 
 
 
@@ -96,25 +78,8 @@ export interface IRoutes {
     guest: IRoute[]
 }
 
-export interface IToolbarProps{
-    type: string
-    onDeleteClick: () => void
-}
 
-export interface IModalProps {
-    open: boolean,
-    handleClose: () => void,
-    type: string
-}
 
-export interface ReactEChartsProps {
-    option: EChartsOption;
-    style?: CSSProperties;
-    settings?: SetOptionOpts;
-    loading?: boolean;
-  }
 
-export interface IIncomeOptionsMonthsValue {
-    date:number,
-    amount:number
-} 
+
+

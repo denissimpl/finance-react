@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { store } from '.';
-import { ISocketData, ITableActions } from '../types/types';
-import { updateSocketData } from './socketDataSlice';
-import { startLoading, stopLoading } from './loadingSlice';
+import { store } from '..';
+import { ISocketData, ITableActions } from '../../types/types';
+import { updateSocketData } from '../slices/socketDataSlice';
+import { startLoading, stopLoading } from '../slices/loadingSlice';
 
 const socket = new WebSocket('ws://localhost:5555');
 

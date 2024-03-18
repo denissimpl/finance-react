@@ -1,10 +1,10 @@
 import { useEffect } from "react"
-import Chart from "../Charts/Chart"
-import getChartOptions, { clearObjs } from "../Charts/getChartOptions"
+import Chart from "../components/Charts/Chart"
+import getChartOptions, { clearObjs } from "../components/Charts/getChartOptions"
 import { useDispatch, useSelector } from "react-redux"
-import { RootState } from "../../redux"
+import { RootState } from "../redux"
 import { Box } from "@mui/material"
-import { startLoading, stopLoading } from "../../redux/loadingSlice"
+import { startLoading, stopLoading } from "../redux/slices/loadingSlice"
 
 let options = {
     expenses: {},

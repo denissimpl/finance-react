@@ -1,5 +1,10 @@
 import { Alert } from "@mui/material"
-import { notification } from "../../types/types"
+
+export interface notification{
+    text: string,
+    type: "success" | "info" | "warning" | "error",
+    sx?: object
+}
 
 
 const AlertWrapper = (props: notification) => {

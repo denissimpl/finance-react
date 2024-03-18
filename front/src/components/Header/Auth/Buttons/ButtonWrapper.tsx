@@ -1,6 +1,9 @@
 import Button from '@mui/material/Button';
-import {IButtonWrapperProps} from '../../../../types/types'
 
+export interface IButtonWrapperProps{
+    text: string
+    callback?: Function
+}
 
 const ButtonWrapper = (props: IButtonWrapperProps) => {
     if (props.callback !== undefined) {

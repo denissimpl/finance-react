@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { userApi } from "./userApi";
-import loggedSlice from "./loggedSlice"
-import userDataSlice from "./userDataSlice";
-import loadingSlice from "./loadingSlice";
-import notificationSlice from "./notificationSlice";
-import socketDataSlice from "./socketDataSlice";
-import { socketApi } from "./socketApi";
+import { userApi } from "./api/userApi";
+import loggedSlice from "./slices/loggedSlice"
+import userDataSlice from "./slices/userDataSlice";
+import loadingSlice from "./slices/loadingSlice";
+import notificationSlice from "./slices/notificationSlice";
+import socketDataSlice from "./slices/socketDataSlice";
+import { socketApi } from "./api/socketApi";
 
 
 export const store = configureStore({
