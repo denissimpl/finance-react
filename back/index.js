@@ -4,16 +4,16 @@ const cors = require('cors')
 
 
 require('dotenv').config();
-const uri = process.env.DB_CONN;
+const URI = process.env.DB_CONN;
+const PORT = process.env.SERVER_PORT
 
-
-const api = new Api(uri)
+const api = new Api(URI)
 api.connectMongo()
 const app = express()
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-const port = 4444
+
 
 
 
@@ -120,8 +120,8 @@ app.post('/charts', async function (req, res) {
 })
 
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`)
+app.listen(PORT, () => {
+  console.log(`Server is running on PORT ${PORT}`)
 })
 
 

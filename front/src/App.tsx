@@ -4,7 +4,7 @@ import Loader from "./components/Loader/Loader";
 import { useSelector } from "react-redux";
 import { RootState } from "./redux";
 import AlertWrapper from "./components/Alert/AlertWrapper";
-import { Routing } from "./Routing/Routing";
+import { Routing } from "./routing/Routing";
 import { IRoute } from "./types/types";
 
 

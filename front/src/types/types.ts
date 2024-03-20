@@ -60,13 +60,6 @@ export interface notificationPayload{
     type: "success" | "info" | "warning" | "error"
 }
 
-    
-
-    
-
-
-
-
 
 export interface IRoute{
     path: string,

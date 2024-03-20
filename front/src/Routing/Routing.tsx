@@ -1,10 +1,11 @@
-import Actions from "../Pages/Actions";
-import Charts from "../Pages/Charts";
-import Main from "../Pages/Main";
-import Guest from "../Pages/Guest";
-import Login from "../Pages/Login";
-import Register from "../Pages/Register";
-import { IRoutes } from "../../types/types";
+import Actions from "../pages/Actions";
+import Charts from "../pages/Charts";
+import Main from "../pages/Main";
+import Guest from "../pages/Guest";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import { IRoutes } from "../types/types";
+
 
 
 
