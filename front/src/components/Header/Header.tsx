@@ -7,7 +7,7 @@ import NavLinks from './Links/NavLinks';
 import AuthMenu from './Auth/AuthMenu';
 
 const Header = () => {
-    
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -17,7 +17,6 @@ const Header = () => {
                     </Typography>
                     <NavLinks />
                     <AuthMenu />
-                    
                 </Toolbar>
             </AppBar>
         </Box>

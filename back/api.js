@@ -1,38 +1,23 @@
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const Mongo = require("./DB/Mongo")
 
 class Api {
-    constructor (uri) {
-        this.client = new MongoClient(uri, {
-            serverApi: {
-              version: ServerApiVersion.v1,
-              strict: true,
-              deprecationErrors: true,
-            }
-          });
-          this.data = {}
+
+    constructor (mongoClient) {
+        this.client = mongoClient
     }
 
-    async connectMongo () {
-        await this.client.connect()
-    }
-
-    async closeMongo () {
-        await this.client.close()
-    }
-    
-
-    async checkLoginFreeness ({login, password}) {
+    async isLoginAlreadyUsed ({login, password}) {
         const result = await this.client.db("users").collection("users").findOne({ login });
         if (result) {
-            return false
+            return true
         }
-        return true
+        return false
     }
 
     async createUser (data) {
         try{
             const result = await this.client.db("users").collection("users").insertOne(data);
-            console.log(`New listing created with the following id: ${result.insertedId}`);
             return true
         } catch (e) {
             console.log(e);
@@ -40,31 +25,12 @@ class Api {
         }
     }
 
-    static validateUser (login, password) {
-        const validation = {status: true, reason: []}
-        if (login.length <2 || password.length <3){
-            validation.status = false
-            validation.reason.push("Слишком короткий логин или пароль. ")
-        } 
-        if (login == password) {
-            validation.status = false
-            validation.reason.push("Логин и пароль не должны совпадать. ")
-        }
-        if (login.length > 20 || password.length > 32){
-            validation.status = false
-            validation.reason.push("Слишком длинный логин или пароль. ")
-        }
-        return validation
-    }
-
     async getEntireData ({login, password}) {
-        console.log(login,password);
         try {
             const result = await this.client.db("users").collection("users").findOne({login})
             if (result) {
                 if (result.password === password){
                     this.data = result
-                    console.log(result);
                     return result
                 }
                 return false

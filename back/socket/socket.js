@@ -1,11 +1,13 @@
 const WebSocket = require('ws');
 const Api = require('./../api')
+const Mongo = require("../DB/Mongo");
 require('dotenv').config();
 const URI = process.env.DB_CONN;
 const PORT = process.env.SOCKET_PORT
 
-const api = new Api(URI)
-api.connectMongo()
+const mongo = new Mongo(URI)
+mongo.connectMongo()
+const api = new Api(mongo.client)
 const wsServer = new WebSocket.Server({port: PORT});
 
 
