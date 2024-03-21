@@ -1,5 +1,5 @@
-import Actions from "../pages/Actions";
-import Charts from "../pages/Charts";
+import Actions from "../pages/Actions/Actions";
+import Charts from "../pages/Charts/Charts";
 import Main from "../pages/Main";
 import Guest from "../pages/Guest";
 import Login from "../pages/Login";

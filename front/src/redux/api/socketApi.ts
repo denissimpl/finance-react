@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { store } from '..';
-import { ISocketData, ITableActions } from '../../types/types';
-import { updateSocketData } from '../slices/socketDataSlice';
+import type {IFullData, ITableActions} from '../../types/types';
 import { startLoading, stopLoading } from '../slices/loadingSlice';
+import {setActions} from "../slices/userDataSlice/userDataSlice";
 
 const socket = new WebSocket('ws://localhost:5555');
 
@@ -34,8 +34,7 @@ socket.onopen = () => {
 
 socket.onmessage = (event) => {
     store.dispatch(stopLoading())
-    const messageData:ISocketData = JSON.parse(event.data)
-    
+    const messageData:IFullData = JSON.parse(event.data)
     if (messageData?.login === store.getState().userData.user.login) {
         
         let newData:ITableActions = {income: [], expenses: []};
@@ -49,7 +48,7 @@ socket.onmessage = (event) => {
             newData.expenses.push({...obj, id:id+1})
           }
         }
-        store.dispatch(updateSocketData({...messageData,...newData}))
+        store.dispatch(setActions(newData))
     }
 }
 

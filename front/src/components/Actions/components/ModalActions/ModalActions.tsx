@@ -1,11 +1,11 @@
 import {Modal, Box, TextField, Typography, Button } from "@mui/material"
-import {IFullData} from '../../types/types'
 import { ChangeEvent, useState } from "react";
 import { useSelector } from "react-redux";
-import type { RootState } from '../../redux'
-import sendSocket from "../../services/sendSocket";
-import { boxStyle, inputsStyle } from "./Modal/ModalStyles";
-import { makeDate, validate } from "./Modal/ModalFunctions";
+import type { RootState } from '../../../../redux'
+import sendSocket from "../../../../services/sendSocket";
+import { boxStyle, inputsStyle } from "./utils/ModalStyles";
+import { makeDate, validate } from "./utils/ModalFunctions";
+import {IUserDataState} from "../../../../redux/slices/userDataSlice/initialState";
 
 export interface IModalProps {
     open: boolean,
@@ -19,7 +19,7 @@ const ModalActions = (props: IModalProps) => {
     const [category, setCategory] = useState("")
     const [amount, setAmount] = useState("")
     const [date, setDate] = useState("")
-    const socketData:IFullData = useSelector((state:RootState) => state.socketData.user)
+    const userData:IUserDataState = useSelector((state:RootState) => state.userData)
     const [errorText, setErrorText] = useState("")
 
 
@@ -53,8 +53,8 @@ const ModalActions = (props: IModalProps) => {
         }
         sendSocket({
             data:{
-                login: socketData.login,
-                password: socketData.password,
+                login: userData.user.login,
+                password: userData.user.password,
                 name: category,
                 amount,
                 date: stringDate

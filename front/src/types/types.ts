@@ -1,6 +1,3 @@
-import { EChartsOption, SetOptionOpts } from "echarts"
-import { CSSProperties } from "react"
-
 export interface IUserAction{
     name: string,
     amount: string,
@@ -16,6 +13,10 @@ export interface IUserActions {
     expenses: IUserAction[]
 }
 
+export interface ITableActions {
+    income: ITableAction[],
+    expenses: ITableAction[]
+}
 
 
 

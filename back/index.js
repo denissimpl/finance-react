@@ -4,7 +4,6 @@ const cors = require('cors')
 const registerController = require("./serverControllers/registerController");
 const loginController = require("./serverControllers/loginController");
 const chartController = require("./serverControllers/chartController");
-const {call} = require("express");
 const Mongo = require("./DB/Mongo");
 
 

@@ -9,14 +9,14 @@ const mongo = new Mongo(URI)
 mongo.connectMongo()
 const api = new Api(mongo.client)
 const wsServer = new WebSocket.Server({port: PORT});
-
+let login;
 
 wsServer.on('connection', onConnect);
 
 async function handleAction(message) {
   switch (message.method){
     case "GET":
-      return await api.getEntireData(message)
+      return await api.getEntireData(message.data)
     case "PUT":
       return await api.updateData(message)
     case "DELETE":
@@ -28,12 +28,15 @@ async function handleAction(message) {
 
 
 async function onConnect(wsClient) {
+
   wsClient.broadcast = function(data) {
     wsServer.clients.forEach(client => client.send(JSON.stringify(data)))
   }
   wsClient.on('message', async function(message) {
-    console.log(JSON.parse(message));
-    result = await handleAction(JSON.parse(message))
+    const data = JSON.parse(message)
+    login = data.data.login
+    console.log(data)
+    const result = await handleAction(JSON.parse(message))
     wsClient.broadcast(result)
   })
   

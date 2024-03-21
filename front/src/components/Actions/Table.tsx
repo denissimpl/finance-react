@@ -1,41 +1,26 @@
 import { Box, Typography } from "@mui/material";
 import { DataGrid, useGridApiRef } from "@mui/x-data-grid";
-import { IFullData } from "../../types/types";
+import type {IFullData, IUserAction} from "../../types/types";
 
-import Toolbar from "./Toolbar";
+import Toolbar from "./components/Toolbar/Toolbar";
 import { useSelector } from "react-redux";
-import { RootState } from "../../redux";
+import type { RootState } from "../../redux";
 import { useState } from "react";
 import sendSocket from "../../services/sendSocket";
-import columns from "./Table/columns";
-import filterActions from "./Table/filterActions";
+import columns from "./utils/columns";
+import filterActions from "./utils/filterActions";
+import {IUserDataState} from "../../redux/slices/userDataSlice/initialState";
+import {onDeleteClickWrapper} from "./utils/onDeleteClickWrapper";
 
 export interface ITableProps{
-  socketDataCopy: IFullData,
+  tableData: IUserAction[],
   type: string
 }
 
 const Table: (props: ITableProps) => JSX.Element = (props:ITableProps) => {
-    const socketData:IFullData = useSelector((state:RootState) => state.socketData.user)
     const apiRef = useGridApiRef()
     const [selectionModel, setSelectionModel] = useState([])
-
-    
-
-    const onDeleteClick: () => void = () => {
-      let newData:IFullData = JSON.parse(JSON.stringify(socketData));
-      if (props.type === "expenses") {
-        newData.expenses = filterActions(newData.expenses, selectionModel)
-      } else {
-        newData.income = filterActions(newData.income, selectionModel)
-      }
-      setSelectionModel([])
-      sendSocket({
-        data: newData,
-        method: "DELETE"
-      })
-    }
-
+    const onDeleteClick = onDeleteClickWrapper(props.type, selectionModel, setSelectionModel)
 
     return (
     <Box sx={{ height: '600px', width: '45%'}}>
@@ -45,7 +30,7 @@ const Table: (props: ITableProps) => JSX.Element = (props:ITableProps) => {
         <Toolbar onDeleteClick={onDeleteClick} type={props.type} />
         <DataGrid
             apiRef={apiRef}
-            rows={props.type == "income" ? props.socketDataCopy.income : props.socketDataCopy.expenses}
+            rows={props.type == "income" ? props.tableData : props.tableData}
             columns={columns}
             onRowSelectionModelChange={(newSelection) => {
               setSelectionModel(newSelection);
@@ -62,7 +47,7 @@ const Table: (props: ITableProps) => JSX.Element = (props:ITableProps) => {
             checkboxSelection
             disableRowSelectionOnClick
         />
-        
+
     </Box>
     )
 }

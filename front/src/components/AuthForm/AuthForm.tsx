@@ -12,7 +12,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { IAuthData } from '../../types/types';
 import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { updateUserData } from '../../redux/slices/userDataSlice';
+import { updateUserData } from '../../redux/slices/userDataSlice/userDataSlice';
 import Copyright from './Copyright';
 import {startLoading, stopLoading} from '../../redux/slices/loadingSlice'
 import { showNotification, hideNotification } from '../../redux/slices/notificationSlice';

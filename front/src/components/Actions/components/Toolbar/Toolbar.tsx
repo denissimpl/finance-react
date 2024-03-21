@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Box, Button } from "@mui/material";
-import ModalActions from "./ModalActions";
+import ModalActions from "../ModalActions/ModalActions";
 
 
 export interface IToolbarProps{
