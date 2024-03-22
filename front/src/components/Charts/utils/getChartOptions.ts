@@ -1,5 +1,5 @@
-import { store, userApi } from "../../redux"
-import { IFullData, IFullDataResponse, IUserAction } from "../../types/types";
+import { store, userApi } from "../../../redux"
+import { IFullData, IFullDataResponse, IUserAction } from "../../../types/types";
 
 export interface IIncomeOptionsMonthsValue {
   date:number,
@@ -45,13 +45,13 @@ const handleChartData = async () => {
     const expenses:IUserAction[] = Array.from(data.expenses)
     const income:IUserAction[] = Array.from(data.income)
     for (let obj of income) {
-        let year_month_day = obj.date.split("-")
+        let date = new Date(obj.date)
         
-        if (incMonObj[String(new Date(year_month_day[0]+"-"+year_month_day[1]+"-01"))] ) {
-            incMonObj[String(new Date(year_month_day[0]+"-"+year_month_day[1]+"-01"))] +=
+        if (incMonObj[String(new Date(date.getFullYear()+"-"+date.getMonth()+"-01"))] ) {
+            incMonObj[String(new Date(date.getFullYear()+"-"+date.getMonth()+"-01"))] +=
             Number(obj.amount)
         } else {
-          incMonObj[String(new Date(year_month_day[0]+"-"+year_month_day[1]+"-01"))] = Number(obj.amount)
+          incMonObj[String(new Date(date.getFullYear()+"-"+date.getMonth()+"-01"))] = Number(obj.amount)
         }
     }
     for (let obj of expenses) {

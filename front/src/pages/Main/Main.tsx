@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import { RootState } from "../redux";
-import timeGreet from "../components/Main/timeGreet";
+import { RootState } from "../../redux";
+import timeGreet from "../../components/Main/utils/timeGreet";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';

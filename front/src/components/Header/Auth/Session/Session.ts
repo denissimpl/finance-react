@@ -1,10 +1,9 @@
 import { LoginRequest } from './../../../../services/sendRest';
 import { store } from "../../../../redux";
-import { startLoading, stopLoading } from "../../../../redux/slices/loadingSlice";
-import { exit, login } from "../../../../redux/slices/loggedSlice";
-import { hideNotification, showNotification } from "../../../../redux/slices/notificationSlice";
+import { startLoading, stopLoading } from "../../../../redux/slices/loadingSlice/loadingSlice";
+import { hideNotification, showNotification } from "../../../../redux/slices/notificationSlice/notificationSlice";
 import { IAuthData } from "../../../../types/types";
-import { updateUserData } from '../../../../redux/slices/userDataSlice/userDataSlice';
+import { exit, login, updateUserData } from '../../../../redux/slices/userDataSlice/userDataSlice';
 
 
 export const createSession = () => {
@@ -24,7 +23,7 @@ export const checkSession = async () => {
     let password: string | null = localStorage.getItem("userPassword")
 
     if (login && password) {
-        if (store.getState().logged.value) {
+        if (store.getState().userData.user.logged) {
             createSession()
         } else {
             const userData:IAuthData | boolean = await LoginRequest({login: login, password: password})

@@ -16,7 +16,7 @@ wsServer.on('connection', onConnect);
 async function handleAction(message) {
   switch (message.method){
     case "GET":
-      return await api.getEntireData(message.data)
+      return await api.getAuthedData(message.data)
     case "PUT":
       return await api.updateData(message)
     case "DELETE":
@@ -34,10 +34,9 @@ async function onConnect(wsClient) {
   }
   wsClient.on('message', async function(message) {
     const data = JSON.parse(message)
-    login = data.data.login
-    console.log(data)
     const result = await handleAction(JSON.parse(message))
-    wsClient.broadcast(result)
+    const {_id, password, ...response} = result
+    wsClient.broadcast(response)
   })
   
 }

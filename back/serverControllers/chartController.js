@@ -1,6 +1,6 @@
 const chartController = async (user, api) => {
     const {login, password} = user
-    return await api.getEntireData({login, password})
+    return await api.getAuthedData({login, password})
 }
 
 

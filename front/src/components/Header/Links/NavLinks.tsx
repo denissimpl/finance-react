@@ -2,11 +2,9 @@ import { NavLink } from "react-router-dom";
 import Box from '@mui/joy/Box';
 import List from '@mui/joy/List';
 import classes from "./NavLinks.module.scss"
-import { INavLink } from "../../../types/types";
+import { links } from "./utils/Links";
 const NavLinks = () => {
-    const links:INavLink[] = [{name: "Главная", to: "/main"}, 
-                    {name: "Доходы и расходы", to:"/actions"},
-                    {name:"Анализ доходов и расходов", to:"/charts"}]
+    
     return (
     <Box component="nav" aria-label="My site" sx={{ flexGrow: 1 }}>
       <List role="menubar" orientation="horizontal">

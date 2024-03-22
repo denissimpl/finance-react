@@ -1,15 +1,10 @@
 import { Box, Typography } from "@mui/material";
 import { DataGrid, useGridApiRef } from "@mui/x-data-grid";
-import type {IFullData, IUserAction} from "../../types/types";
+import type {IUserAction} from "../../types/types";
 
 import Toolbar from "./components/Toolbar/Toolbar";
-import { useSelector } from "react-redux";
-import type { RootState } from "../../redux";
 import { useState } from "react";
-import sendSocket from "../../services/sendSocket";
 import columns from "./utils/columns";
-import filterActions from "./utils/filterActions";
-import {IUserDataState} from "../../redux/slices/userDataSlice/initialState";
 import {onDeleteClickWrapper} from "./utils/onDeleteClickWrapper";
 
 export interface ITableProps{

@@ -1,6 +1,6 @@
 const loginController = async (user, api) => {
     const {login, password} = user
-    const status = await api.getEntireData({login, password})
+    const status = await api.getAuthedData({login, password})
     if (!status) {
         return {
             status,

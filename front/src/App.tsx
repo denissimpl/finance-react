@@ -13,7 +13,7 @@ import {Routing} from "./routing/Routing";
 const App = () => {
 
     const loading = useSelector((state: RootState) => state.loading.value)
-    const logged = useSelector((state:RootState) => state.logged.value)
+    const logged = useSelector((state:RootState) => state.userData.user.logged)
     const notification = useSelector((state: RootState) => state.notification)
     return (
     <BrowserRouter>

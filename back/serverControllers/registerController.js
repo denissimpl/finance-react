@@ -1,4 +1,3 @@
-const Api = require("../api");
 const registerValidation = require("../validations/registerValidation");
 
 const registerController = async (user, api) => {

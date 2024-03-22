@@ -8,15 +8,19 @@ import React from "react";
 export const onDeleteClickWrapper = (type:string, selectionModel:Number[], setSelectionModel:React.Dispatch<React.SetStateAction<never[]>>) => {
     const userData = store.getState().userData
     return () => {
-        let newData:IFullData = JSON.parse(JSON.stringify(userData.user));
+        let {login, income, expenses} = JSON.parse(JSON.stringify(userData.user));
         if (type === "expenses") {
-            newData.expenses = filterActions(newData.expenses, selectionModel)
+            expenses = filterActions(expenses, selectionModel)
         } else {
-            newData.income = filterActions(newData.income, selectionModel)
+            income = filterActions(income, selectionModel)
         }
         setSelectionModel([])
         sendSocket({
-            data: newData,
+            data: {
+                login,
+                income,
+                expenses
+            },
             method: "DELETE"
         })
     }

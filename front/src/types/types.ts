@@ -27,9 +27,9 @@ export interface INavLink {
 }
 
 export interface IFullData {
-    _id: string,
+    _id?: string,
     login: string,
-    password: string,
+    password?: string,
     income: ITableAction[],
     expenses: ITableAction[],
 }
@@ -56,9 +56,8 @@ export interface IAuthResponse {
 }
 
 export interface notificationPayload{
-    value: boolean,
     text: string,
-    type: "success" | "info" | "warning" | "error"
+    type?: "success" | "info" | "warning" | "error"
 }
 
 

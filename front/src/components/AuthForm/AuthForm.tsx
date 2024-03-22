@@ -9,16 +9,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { IAuthData } from '../../types/types';
 import { NavLink } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { updateUserData } from '../../redux/slices/userDataSlice/userDataSlice';
-import Copyright from './Copyright';
-import {startLoading, stopLoading} from '../../redux/slices/loadingSlice'
-import { showNotification, hideNotification } from '../../redux/slices/notificationSlice';
-import { login } from '../../redux/slices/loggedSlice'
-import { Dispatch, UnknownAction } from '@reduxjs/toolkit';
-import { LoginRequest, RegisterRequest } from '../../services/sendRest';
+import Copyright from './components/Copyright';
+import { useSubmit } from './hooks/useSubmitForm';
 
 export interface IFormProps{
   text: {
@@ -29,75 +22,19 @@ export interface IFormProps{
 }
 
 
+
 const defaultTheme = createTheme();
 
 const AuthForm = (props: IFormProps) => {
   const [nameValue, setNameValue] = useState("")
   const [passwordValue, setPasswordValue] = useState("")
-  const dispatch:Dispatch<UnknownAction> = useDispatch()
 
   const clearInputs = () => {
     setNameValue("")
     setPasswordValue("")
   }
   
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    dispatch(startLoading())
-    event.preventDefault();
-    let data: IAuthData;
-    
-    if (props.isLogin) {
-      
-      data = await LoginRequest({
-        login: nameValue,
-        password: passwordValue
-      })
-      if (data.status) {
-        dispatch(showNotification({
-          value:true,
-          text:"Успешный вход",
-          type: "success"
-        }))
-        dispatch(updateUserData(data))
-        dispatch(login())
-        clearInputs()
-        localStorage.setItem("userLogin", data.login!)
-        localStorage.setItem("userPassword", data.password!)
-      } else {
-        dispatch(showNotification({
-          value:true,
-          text: data.reason,
-          type: "error"
-        }))
-      }
-    } else {
-      data = await RegisterRequest({
-        login: nameValue,
-        password: passwordValue
-      })
-      if (data.status) {
-        dispatch(showNotification({
-          value:true,
-          text:"Успешная регистрация! Авторизуйтесь!",
-          type: "success"
-        }))
-        clearInputs()
-      } else {
-        dispatch(showNotification({
-          value:true,
-          text: data.reason,
-          type: "error"
-        }))
-      }
-    }
-    dispatch(stopLoading())
-    setTimeout(() => {
-      dispatch(hideNotification())
-    }, 2000);
-    
-  };
-
+  const handleSubmit = useSubmit(props, nameValue, passwordValue, clearInputs)
 
   return (
     

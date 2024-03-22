@@ -6,6 +6,7 @@ import sendSocket from "../../../../services/sendSocket";
 import { boxStyle, inputsStyle } from "./utils/ModalStyles";
 import { makeDate, validate } from "./utils/ModalFunctions";
 import {IUserDataState} from "../../../../redux/slices/userDataSlice/initialState";
+import { useModalSubmit } from "./hooks/useModalSubmit";
 
 export interface IModalProps {
     open: boolean,
@@ -35,36 +36,7 @@ const ModalActions = (props: IModalProps) => {
         setErrorText("")
     }
 
-    
-    
-    const handleSubmit:(e:Event) => void = async (e:Event) => {
-        e.preventDefault()
-        const errors:string[] = validate(category, amount)
-        if (errors.length) {
-            setErrorText(errors.join(". "))            
-            return
-        }
-        props.handleClose()
-        let stringDate = date;
-        if (!date) {
-            stringDate = makeDate()
-            setDate(stringDate)
-            
-        }
-        sendSocket({
-            data:{
-                login: userData.user.login,
-                password: userData.user.password,
-                name: category,
-                amount,
-                date: stringDate
-            },
-            method: "PUT",
-            type: props.type
-        })
-        clearInputs()
-
-    }
+    const handleSubmit = useModalSubmit(setErrorText, props, category ,amount, date, setDate, clearInputs)
 
     return (
         <Modal

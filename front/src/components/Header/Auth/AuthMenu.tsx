@@ -1,13 +1,12 @@
 import { useEffect } from 'react';
-import ButtonWrapper from "./Buttons/ButtonWrapper";
+import ButtonWrapper from "./components/Buttons/ButtonWrapper";
 import { NavLink } from "react-router-dom";
 import classes from "./Auth.module.scss"
-import { useSelector } from "react-redux";
-import type { RootState } from '../../../redux/store'
 import { endSession, checkSession } from "./Session/Session";
+import { getLoggedSelector } from './utils/getLoggedSelector';
 
 const AuthMenu = () => {
-    const logged = useSelector((state: RootState) => state.logged.value)
+    const logged = getLoggedSelector()
     
     useEffect(() => {
         checkSession()

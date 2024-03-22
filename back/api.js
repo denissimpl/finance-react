@@ -25,7 +25,9 @@ class Api {
         }
     }
 
-    async getEntireData ({login, password}) {
+
+
+    async getAuthedData ({login, password}) {
         try {
             const result = await this.client.db("users").collection("users").findOne({login})
             if (result) {
@@ -37,6 +39,15 @@ class Api {
             } else {
                 return false
             }
+        } catch (e) {
+            console.log(e);
+            return false
+        }
+    }
+
+    async getDataWithoutAuth (data) {
+        try {
+            return await this.client.db("users").collection("users").findOne({login: data.data.login})
         } catch (e) {
             console.log(e);
             return false
@@ -66,8 +77,7 @@ class Api {
                   }
                 });
               }
-            return await this.getEntireData({login: data.data.login, 
-                password: data.data.password})
+            return await this.getDataWithoutAuth(data)
         } catch (e) {
             console.log(e);
             return false
@@ -82,7 +92,7 @@ class Api {
                 expenses: data.data.expenses
             }})
             this.data = data.data
-            return this.data
+            return await this.getDataWithoutAuth(data)
         } catch (e) {
             console.log(e);
             return false

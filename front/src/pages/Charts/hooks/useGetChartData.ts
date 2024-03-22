@@ -1,7 +1,7 @@
 import {store} from "../../../redux";
 import {useEffect} from "react";
-import {startLoading, stopLoading} from "../../../redux/slices/loadingSlice";
-import getChartOptions, {clearObjs} from "../../../components/Charts/getChartOptions";
+import {startLoading, stopLoading} from "../../../redux/slices/loadingSlice/loadingSlice";
+import getChartOptions, {clearObjs} from "../../../components/Charts/utils/getChartOptions";
 import {setTableOptions} from "../../../redux/slices/userDataSlice/userDataSlice";
 
 

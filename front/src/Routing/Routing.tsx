@@ -1,9 +1,9 @@
 import Actions from "../pages/Actions/Actions";
 import Charts from "../pages/Charts/Charts";
-import Main from "../pages/Main";
-import Guest from "../pages/Guest";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
+import Main from "../pages/Main/Main";
+import Guest from "../pages/Guest/Guest";
+import Login from "../pages/Login/Login";
+import Register from "../pages/Register/Register";
 import { IRoutes } from "../types/types";
 
 
